@@ -12,9 +12,9 @@
 
 | 版本 | 安装包 | 说明 |
 | --- | --- | --- |
-| v1.7.1（最新） | [sidekey-v1.7.1.zip](../../releases/latest) | 手电筒改用官方服务开关，控制中心不再失灵 |
+| v1.7.1（最新） | [sidekey-v1.7.1.zip](https://github.com/spoilsme/SideKey/releases/latest) | 手电筒改用官方服务开关，控制中心不再失灵 |
 
-到 [Releases](../../releases) 页面下载最新 `sidekey-vX.Y.Z.zip`，直接刷入即可。
+到 [Releases](https://github.com/spoilsme/SideKey/releases) 页面下载最新 `sidekey-vX.Y.Z.zip`，直接刷入即可。
 
 ## 它能做什么
 
@@ -112,7 +112,7 @@ WebUI「脚本」页可查看全部内置脚本（只读）和试运行；自己
 
 ## 反馈
 
-问题与建议请开 [Issues](../../issues)，附机型、系统版本、复现步骤和相关日志。
+问题与建议请开 [Issues](https://github.com/spoilsme/SideKey/issues)，附机型、系统版本、复现步骤和相关日志。
 
 ## 许可
 
