@@ -1,6 +1,6 @@
 # SideKey — 一加 / ColorOS 侧键增强模块
 
-![Version](https://img.shields.io/badge/version-v1.7.1-2b7cf6) ![Platform](https://img.shields.io/badge/platform-ColorOS%20%2F%20OPPO%20%2F%20realme-16a34a) ![Manager](https://img.shields.io/badge/KernelSU%20%2F%20Magisk%20%2F%20APatch-%E5%85%BC%E5%AE%B9-f59e0b) ![License](https://img.shields.io/badge/license-MIT-8b5cf6)
+![Version](https://img.shields.io/badge/version-v2.0.0-2b7cf6) ![Platform](https://img.shields.io/badge/platform-ColorOS%20%2F%20OPPO%20%2F%20realme-16a34a) ![Manager](https://img.shields.io/badge/KernelSU%20%2F%20Magisk%20%2F%20APatch-%E5%85%BC%E5%AE%B9-f59e0b) ![License](https://img.shields.io/badge/license-MIT-8b5cf6)
 
 纯 C++ 实现的 KernelSU / Magisk / APatch 模块：把电源键、音量键、三段式静音开关变成
 可编程快捷键，支持多击、长按、组合键，内置 37 个常用动作，全部配置在 WebUI 里点几下就能完成。
@@ -22,6 +22,7 @@
 ## 项目特色
 
 - **零门槛配置**：打开 WebUI 自动识别这台机器的实体按键和三段式开关，点「＋手势」挑一个动作、点「保存并重启」，2 秒生效，全程不用碰命令行
+- **场景引擎（v2.0.0）**：同一个手势在不同场合做不同的事——微信里开付款码、相册里开编辑、静音时切响铃、息屏手电筒；10 种条件（应用 / 时段 / 响铃 / 横竖屏 / 流量 / 飞行模式…）可组合，冲突自动按「优先标记 > 应用 > 时段 > …」裁决，WebUI 里直接看胜负预览
 - **纯 C++ 守护进程**：没有 Java / Xposed / LSPosed 依赖，开机即用，不注入任何应用，兼容所有 root 管理器
 - **真·多击拦截**：通过 uinput 独占按键设备，双击音量键只跑你的脚本，不会顺带加减音量（自动检测支持情况）
 - **组合键自动识别**：只列出这台机器真实存在的按键，耳机线控、相机键这些不存在的键不会出现
@@ -35,14 +36,15 @@
 
 | 版本 | 说明 |
 | --- | --- |
-| **v1.7.1**（最新） | 手电筒改用官方服务开关，控制中心不再失灵；修复手电筒一键复位 |
+| **v2.0.0**（最新） | **场景引擎**：同一手势按场合（前台应用 / 时段 / 响铃 / 横竖屏 / 息屏…）做不同的事，每手势 3 个场景槽 + 优先级；组合键支持长短按；修复音量键对调失灵；新增管理器内自动更新 |
+| v1.7.1 | 手电筒改用官方服务开关，控制中心不再失灵；修复手电筒一键复位 |
 | v1.7.0 及更早 | 历史版本都在 [Releases](https://github.com/spoilsme/SideKey/releases) 页面 |
 
 到 [Releases](https://github.com/spoilsme/SideKey/releases) 下载 `sidekey-vX.Y.Z.zip`，直接刷入即可。
 
 ## 安装
 
-1. 把 `sidekey-v1.7.1.zip` 刷进 KernelSU（或 Magisk / APatch），**重启**。
+1. 把 `sidekey-v2.0.0.zip` 刷进 KernelSU（或 Magisk / APatch），**重启**。
    - 兼容 KernelSU / KSU Next、Magisk 稳定版 / Beta / Canary、Magisk Delta / Alpha、
      APatch、狐狸面具（Fox Magisk Module Manager）等所有主流 root 管理器。
    - v1.7.0 起包内补齐了标准 `META-INF/com/google/android/update-binary`（Magisk
