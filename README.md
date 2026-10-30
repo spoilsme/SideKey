@@ -60,7 +60,7 @@
 不用自己去 Releases 找。KernelSU / KSU Next、Magisk、APatch、MMRL 都支持这套机制。
 
 - 检查用的是仓库根目录的 [`update.json`](update.json)，由发布脚本在每次发版后刷新；
-- 走 jsDelivr 的 GitHub 镜像（`cdn.jsdelivr.net`），国内一般能直连，比 raw.githubusercontent.com 稳；
+- 走 jsDelivr 的 **fastly 节点**（`fastly.jsdelivr.net`）：实测国内直连可用，`cdn.jsdelivr.net` 和 `raw.githubusercontent.com` 都会被重置；
 - WebUI 的「简介」页也有一份：进页面自动查（24 小时内只查一次），`有新版本` 会显示成彩色徽标，点它下载；
 - 管理器拉不到更新时不影响模块本身，手动刷 zip 一样升级；
 - ⚠️ **从 v1.7.x 及更早版本升上来的第一次仍需手动刷**：老版本的 `module.prop` 里没有 `updateJson`，
