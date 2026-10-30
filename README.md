@@ -1,32 +1,44 @@
 # SideKey — 一加 / ColorOS 侧键增强模块
 
-纯 C++ 实现的 KernelSU / Magisk / APatch 模块：把电源键、音量键变成可编程快捷键，
-支持多击、长按、组合键、三段式静音开关，内置 40+ 个常用动作脚本，带 WebUI 配置界面。
+![Version](https://img.shields.io/badge/version-v1.7.1-2b7cf6) ![Platform](https://img.shields.io/badge/platform-ColorOS%20%2F%20OPPO%20%2F%20realme-16a34a) ![Manager](https://img.shields.io/badge/KernelSU%20%2F%20Magisk%20%2F%20APatch-%E5%85%BC%E5%AE%B9-f59e0b) ![License](https://img.shields.io/badge/license-MIT-8b5cf6)
+
+纯 C++ 实现的 KernelSU / Magisk / APatch 模块：把电源键、音量键、三段式静音开关变成
+可编程快捷键，支持多击、长按、组合键，内置 37 个常用动作，全部配置在 WebUI 里点几下就能完成。
 
 - 作者：spoilsme
-- 平台：arm64，一加 / OPPO / realme（ColorOS 15 / 16），其他机型理论可用（自动识别按键）
-- 当前版本：**v1.7.1**
-- 本仓库只提供**安装包**与说明文档，不包含源代码
+- 平台：arm64，一加 / OPPO / realme（ColorOS 15 / 16 实测），其他机型理论可用（自动识别按键）
+- 本仓库只提供**安装包与说明**，下载请到 [Releases](https://github.com/spoilsme/SideKey/releases)
+
+## 界面预览
+
+| 按键 · 手势绑定 | 脚本 · 我的脚本 / 多动作 | 脚本 · 37 个内置动作 |
+| --- | --- | --- |
+| <img src="docs/ui-keys.jpg" width="270"> | <img src="docs/ui-scripts.jpg" width="270"> | <img src="docs/ui-scripts-builtin.jpg" width="270"> |
+
+| 设置 · 手势时序 / 密码 | 日志 · 开关与自动清理 | 关于 · 版本与链接 |
+| --- | --- | --- |
+| <img src="docs/ui-settings.jpg" width="270"> | <img src="docs/ui-log.jpg" width="270"> | <img src="docs/ui-about.jpg" width="270"> |
+
+## 项目特色
+
+- **零门槛配置**：打开 WebUI 自动识别这台机器的实体按键和三段式开关，点「＋手势」挑一个动作、点「保存并重启」，2 秒生效，全程不用碰命令行
+- **纯 C++ 守护进程**：没有 Java / Xposed / LSPosed 依赖，开机即用，不注入任何应用，兼容所有 root 管理器
+- **真·多击拦截**：通过 uinput 独占按键设备，双击音量键只跑你的脚本，不会顺带加减音量（自动检测支持情况）
+- **组合键自动识别**：只列出这台机器真实存在的按键，耳机线控、相机键这些不存在的键不会出现
+- **电源键友好**：默认叠加模式，息屏 / 亮屏 / 关机菜单全部保留，双击脚本只是额外多跑一次；「电源键 + 音量减」截图组合键可保持可用
+- **锁屏自动化**：锁屏直接拉起微信付款码并自动解锁到密码键盘，全程约 3 秒；密码加密存储、仅存本机
+- **手电筒满功率**：开关走 OPlus 官方服务（控制中心始终正常），点亮后自动拉满亮度，实测开灯约 1.7 秒
+- **脚本热更新**：自己的脚本放手机目录里，改完即时生效不用重启；WebUI 里还能一键试运行
+- **隐私干净**：不联网、不上传、不收集任何数据，卸载即全部清除
 
 ## 下载
 
-| 版本 | 安装包 | 说明 |
-| --- | --- | --- |
-| v1.7.1（最新） | [sidekey-v1.7.1.zip](https://github.com/spoilsme/SideKey/releases/latest) | 手电筒改用官方服务开关，控制中心不再失灵 |
+| 版本 | 说明 |
+| --- | --- |
+| **v1.7.1**（最新） | 手电筒改用官方服务开关，控制中心不再失灵；修复手电筒一键复位 |
+| v1.7.0 及更早 | 历史版本都在 [Releases](https://github.com/spoilsme/SideKey/releases) 页面 |
 
-到 [Releases](https://github.com/spoilsme/SideKey/releases) 页面下载最新 `sidekey-vX.Y.Z.zip`，直接刷入即可。
-
-## 它能做什么
-
-- **多击手势**：单击 / 双击 / 三击 / 四击 / 五击 / 长按，每个手势绑定一个动作
-- **多击拦截**：双击只跑你的脚本，不会顺带加减音量（需要 uinput 支持，自动检测）
-- **电源键叠加**：默认保留原功能（息屏 / 关机菜单），可选拦截
-- **保留系统截图组合键**（v1.6.7 新增）：音量下 / 电源键配了拦截后，「电源键 + 音量减」截图仍可用（设置页可开关）
-- **组合键**：电源键 + 音量键等组合绑定动作（可选键自动识别真机实体键，虚拟设备的假键不显示）
-- **三段式静音开关**：拨到上 / 中 / 下各执行一个动作，可屏蔽系统原行为
-- **多动作序列**：可视化编排「打开应用 → 等待 → 回主屏」等步骤，保存成脚本
-- **锁屏自动化**：锁屏拉起微信付款码并自动解锁到密码键盘（ColorOS 实测配方）
-- **WebUI**：5 个页签（按键 / 脚本 / 设置 / 日志 / 关于），改完一键保存重启
+到 [Releases](https://github.com/spoilsme/SideKey/releases) 下载 `sidekey-vX.Y.Z.zip`，直接刷入即可。
 
 ## 安装
 
@@ -52,19 +64,20 @@ WebUI「脚本」页可查看全部内置脚本（只读）和试运行；自己
 | --- | --- | --- |
 | `sys_home.sh` / `sys_back.sh` | 主屏 / 返回 | |
 | `sys_recents.sh` | 最近任务 | |
-| `sys_screen_off.sh` | 息屏 | |
+| `sys_screen_off.sh` / `sys_screen_on.sh` | 息屏 / 亮屏 | |
 | `sys_power_menu.sh` | 电源菜单 | |
 | `sys_notification.sh` | 下拉通知栏 | |
 | `sys_qs.sh` | 展开快捷设置 | |
 | `sys_split.sh` | 分屏 | |
 | `sys_screenshot.sh` | 截图 | |
+| `sys_assistant.sh` / `sys_camera.sh` | 语音助手 / 相机 | |
 | `cos_ocr.sh` | 文字识别 | |
 | `cos_screenshot_area.sh` | 区域截图 | |
-| `cos_torch.sh` | 手电筒（最大亮度） | **v1.7.1**：开关完全沿用 OPlus 官方服务（判断 `flashlight_enabled` → ACTION_OPEN/CLOSE + 同步两个 settings 值，**全程不碰 `switch_*` 电源闸**），点亮后再把 `led:torch_*` 拉到 `max_brightness` 得到满功率。实测：开灯约 1.7 秒（其中 1 秒是官方服务点亮硬件的固有延迟）、关灯约 0.5 秒，**控制中心手电筒开关始终正常**。若哪天失灵，WebUI「设置」页点【修复手电筒】（或 `TORCH_REPAIR=1 cos_torch.sh`）约 10 秒恢复，不用重启手机。日志 `torch.log` |
+| `cos_torch.sh` | 手电筒（最大亮度） | **v1.7.1**：开关完全沿用 OPlus 官方服务（判断 `flashlight_enabled` → ACTION_OPEN/CLOSE + 同步两个 settings 值，**全程不碰 `switch_*` 电源闸**），点亮后再把 `led:torch_*` 拉到 `max_brightness` 得到满功率。实测：开灯约 1.7 秒、关灯约 0.5 秒，**控制中心手电筒开关始终正常**。若哪天失灵，WebUI「设置」页点【修复手电筒】（或 `TORCH_REPAIR=1 cos_torch.sh`）约 10 秒恢复，不用重启手机。日志 `torch.log` |
 | `cos_torch_sys.sh` | 手电筒（系统亮度·原版） | 走 OPlus 官方手势服务，与相机 HAL 完全兼容 |
 | `cos_bypass.sh` | 游戏免打扰 | |
 | `cos_nfc.sh` | NFC 开关 | |
-| `cos_ringer.sh` | 铃声 响铃→震动→静音 | 读当前模式 → 切下一个 → 回读确认；日志 `ringer.log` |
+| `cos_ringer.sh` | 铃声 响铃→震动→静音 | 读当前模式 → 切下一个 → 回读确认，带切换提示；日志 `ringer.log` |
 
 **媒体**：`media_play.sh`（播放 / 暂停）、`media_next.sh` / `media_prev.sh`（切曲）、
 `slider_volume_up.sh` / `slider_volume_down.sh`（音量加减）。
@@ -96,7 +109,7 @@ WebUI「脚本」页可查看全部内置脚本（只读）和试运行；自己
 
 ## 故障排查
 
-- 守护进程没起来：看 WebUI「日志」页 → daemon.out 和 sidekey.log
+- 守护进程没起来：看 WebUI「日志」页 → daemon.out 和 sidekeyd.log
 - 手电筒点不亮（控制中心）：WebUI「设置」页点【修复手电筒】（= `TORCH_REPAIR=1 cos_torch.sh`），约 10 秒恢复，**不用重启手机**
 - 铃声切换不对：看 `ringer.log`，把日志发到 Issues
 - 多击拦截不生效：设置页「按键扫描」确认设备和 uinput 状态
@@ -116,4 +129,4 @@ WebUI「脚本」页可查看全部内置脚本（只读）和试运行；自己
 
 ## 许可
 
-仅供学习交流，禁止倒卖。使用本模块产生的任何后果由使用者自行承担。
+本项目以 [MIT License](LICENSE) 开源。使用本模块产生的任何后果由使用者自行承担。
