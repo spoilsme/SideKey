@@ -5,6 +5,24 @@
 
 ---
 
+## v2.1.0-c17 — ColorOS 17 闪记 / 随口记修复（测试版）
+
+一句话：ColorOS 17（预装 Gleaner 的机型）上「一键闪记」「小布随口记」点了没反应的问题修好了；ColorOS 15 / 16 的表现完全不变。
+
+### 修复
+- **ColorOS 17 一键闪记打不开**：新系统把采集入口搬到了 Gleaner（`com.oplus.gleanerservice`）。旧的 `com.coloros.colordirectservice` 里那份服务会主动退出（日志 `Gleaner has Installed or intent is null, stop service`），连参数都不读，所以看着"起来了"其实什么都没做。现在先看 Gleaner 在不在：在就走新入口（只认 `triggerType=1`），不在走老入口（`triggerType=12`）
+- **ColorOS 17 随口记打不开**：新入口是 `com.oplus.aimemory/.voicecollect.service.DataCollectService`（action `oplus.aimemory.intent.action.COLLECT_DATA`），按服务在不在自动切换；老系统仍走原路径
+- **判断方式**从「`am` 的输出里有没有 Error」改成「包 / 服务在不在」—— `am` 对不存在的组件也会打印 `Starting service`，旧逻辑的兜底分支其实永远不会触发
+
+### 排障
+- `Android/sidekey/flashnote.log`、`voicenote.log` 会记下这次走了哪条入口、`am` 返回了什么
+- 跑 `cos_flashnote.sh diag` 会收集机型 / Android / ROM 版本、`gleaner_installed`、两条候选入口在不在、相关包的组件清单，以及最近被系统拒绝的前台服务日志
+
+### 说明
+- 这是**测试版**（`2.1.0-c17` / versionCode 20101），仅用于验证 ColorOS 17；除这两个脚本外与 v2.1.0 完全一致。验证通过后会并进正式版
+
+---
+
 ## v2.1.0 — 组合键重做 + 原生截图回归
 
 一句话：组合键终于像个正经功能了（独立编辑页、最多 8 键、三段式条件、任意键码），
