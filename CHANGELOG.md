@@ -9,6 +9,12 @@
 
 一句话：ColorOS 17（预装 Gleaner 的机型）上「一键闪记」「小布随口记」点了没反应的问题修好了；ColorOS 15 / 16 的表现完全不变。
 
+### 2026-11-13 更新：随口记拆分 + 切换式
+- **随口记拆成两个脚本**：`cos_voicenote.sh` = ColorOS 15/16 专用（老名字，老绑定不变）；`cos_voicenote17.sh` = ColorOS 17+ 专用（小布记忆）。在 WebUI 动作列表里按系统选一个
+- **随口记改为切换式**：同一按键按一下开始、再按一下停止（之前双击永远发「开始」，录音停不下来）
+- **返回退出残留通知**：录音界面按返回后小布的通知会残留，再按一次侧键即自动清掉（脚本检测到服务残留会补发停止）
+- 已核实的小布 C17 自身行为：录音期间全屏「闪忆」动画层（录屏发黄是它，停止即消失，无开关）；录满 60 秒自动停止
+
 ### 修复
 - **ColorOS 17 一键闪记打不开**：新系统把采集入口搬到了 Gleaner（`com.oplus.gleanerservice`）。旧的 `com.coloros.colordirectservice` 里那份服务会主动退出（日志 `Gleaner has Installed or intent is null, stop service`），连参数都不读，所以看着"起来了"其实什么都没做。现在先看 Gleaner 在不在：在就走新入口（只认 `triggerType=1`），不在走老入口（`triggerType=12`）
 - **ColorOS 17 随口记打不开**：新入口是 `com.oplus.aimemory/.voicecollect.service.DataCollectService`（action `oplus.aimemory.intent.action.COLLECT_DATA`），按服务在不在自动切换；老系统仍走原路径
