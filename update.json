@@ -1,6 +1,6 @@
 {
-  "version": "v2.1.0",
-  "versionCode": 20100,
-  "zipUrl": "https://github.com/spoilsme/SideKey/releases/download/v2.1.0/sidekey-v2.1.0.zip",
+  "version": "v2.2.0",
+  "versionCode": 20200,
+  "zipUrl": "https://github.com/spoilsme/SideKey/releases/download/v2.2.0/sidekey-v2.2.0.zip",
   "changelog": "https://fastly.jsdelivr.net/gh/spoilsme/SideKey@main/CHANGELOG.md"
 }
