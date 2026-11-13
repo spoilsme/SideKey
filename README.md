@@ -1,6 +1,6 @@
 # SideKey — 一加 / ColorOS 侧键增强模块
 
-![Version](https://img.shields.io/badge/version-v2.1.0-2b7cf6) ![Platform](https://img.shields.io/badge/platform-ColorOS%20%2F%20OPPO%20%2F%20realme-16a34a) ![Manager](https://img.shields.io/badge/KernelSU%20%2F%20Magisk%20%2F%20APatch-%E5%85%BC%E5%AE%B9-f59e0b) ![License](https://img.shields.io/badge/license-MIT-8b5cf6)
+![Version](https://img.shields.io/badge/version-v2.2.0-2b7cf6) ![Platform](https://img.shields.io/badge/platform-ColorOS%20%2F%20OPPO%20%2F%20realme-16a34a) ![Manager](https://img.shields.io/badge/KernelSU%20%2F%20Magisk%20%2F%20APatch-%E5%85%BC%E5%AE%B9-f59e0b) ![License](https://img.shields.io/badge/license-MIT-8b5cf6)
 
 纯 C++ 实现的 KernelSU / Magisk / APatch 模块：把电源键、音量键、三段式静音开关变成
 可编程快捷键，支持多击、长按、组合键，内置 37 个常用动作，全部配置在 WebUI 里点几下就能完成。
@@ -11,23 +11,25 @@
 
 ## 界面预览
 
-| 按键 · 手势绑定 | 脚本 · 我的脚本 / 多动作 | 脚本 · 37 个内置动作 |
+| 按键 · 手势绑定 | 按键 · 识别参数 | 新建场景 · 确认页 |
 | --- | --- | --- |
-| <img src="docs/ui-keys.jpg" width="270"> | <img src="docs/ui-scripts.jpg" width="270"> | <img src="docs/ui-scripts-builtin.jpg" width="270"> |
+| <img src="docs/ui-keys.jpg" width="270"> | <img src="docs/ui-keyopen.jpg" width="270"> | <img src="docs/ui-wizard.jpg" width="270"> |
 
-| 设置 · 手势时序 / 密码 | 日志 · 开关与自动清理 | 关于 · 版本与链接 |
+| 场景 · 手势卡片 | 脚本 · 列表 | 动作选择器 |
 | --- | --- | --- |
-| <img src="docs/ui-settings.jpg" width="270"> | <img src="docs/ui-log.jpg" width="270"> | <img src="docs/ui-about.jpg" width="270"> |
+| <img src="docs/ui-scene.jpg" width="270"> | <img src="docs/ui-scripts.jpg" width="270"> | <img src="docs/ui-picker.jpg" width="270"> |
 
 ## 项目特色
 
 - **零门槛配置**：打开 WebUI 自动识别这台机器的实体按键和三段式开关，点「＋手势」挑一个动作、点「保存并重启」，2 秒生效，全程不用碰命令行
-- **场景引擎（v2.0.0）**：同一个手势在不同场合做不同的事——微信里开付款码、相册里开编辑、静音时切响铃、息屏手电筒；10 种条件（应用 / 时段 / 响铃 / 横竖屏 / 流量 / 飞行模式…）可组合，冲突自动按「优先标记 > 应用 > 时段 > …」裁决，WebUI 里直接看胜负预览
+- **停止闭环（v2.2.0）**：随口记发完停止会再验证一遍（麦克风 + 服务双判据），发现残留自动补发，按一次就干净；按键响应提速（能力探测挪进守护进程）；脚本超时保护
+- **统一诊断（v2.2.0）**：`diag.sh` 一条命令输出机型 / ROM / 守护进程 / 入口 / 绑定 / FGS 拒绝 / 日志尾，报告存 `Android/sidekey/diag.txt`，反馈问题直接发这个文件
+- **场景引擎（v2.0.0）**：同一个手势在不同场合做不同的事——微信里开付款码、相册里开编辑、静音时切响铃、息屏手电筒；10 种条件（应用 / 时段 / 响铃 / 横竖屏 / 流量 / 飞行模式…）可组合，冲突自动按「优先标记 > 应用 > 时段 > …」裁决，WebUI 里直接看胜负预览；新建 / 编辑场景走四步向导（按键 → 做什么 → 什么时候生效 → 确认），一屏一步
 - **纯 C++ 守护进程**：没有 Java / Xposed / LSPosed 依赖，开机即用，不注入任何应用，兼容所有 root 管理器
 - **真·多击拦截**：通过 uinput 独占按键设备，双击音量键只跑你的脚本，不会顺带加减音量（自动检测支持情况）
 - **组合键（v2.1.0 重做）**：最多 8 键同按，独立编辑页、可区分短按 / 长按，支持三段式条件与任意键码；末尾「更多侧键」把相机键、对焦键、静音键、F13–F15 都放进来，换机型不用等更新
 - **原生截图不丢**：开「保留系统截图组合键」后引擎完全不碰电源键 / 音量减，系统的截图动画、左下角预览、相册分类都是原生的；「拦截电源键」和它互斥，保存时会拦下来
-- **应用集合**：设置页预存最多 5 组常用应用（游戏 / 日用…），场景条件里一键整组导入
+- **应用集合**：场景页时间档下面预存最多 5 组常用应用（游戏 / 日用…），场景条件里一键整组导入
 - **电源键友好**：默认叠加模式，息屏 / 亮屏 / 关机菜单全部保留，双击脚本只是额外多跑一次
 - **锁屏自动化**：锁屏直接拉起微信付款码并自动解锁到密码键盘，全程约 3 秒；密码加密存储、仅存本机
 - **手电筒满功率**：开关走 OPlus 官方服务（控制中心始终正常），点亮后自动拉满亮度，实测开灯约 1.7 秒
@@ -38,7 +40,8 @@
 
 | 版本 | 说明 |
 | --- | --- |
-| **v2.1.0**（最新） | **组合键重做 + 原生截图回归**：组合键独立编辑页、最多 8 键、三段式条件、任意键码；「电源+音量减」原生截图完整保留；新增机型识别、应用集合、保存冲突检测、配置备份、息屏免密开相机/计算器；修复电源键双击判定与触摸屏误报按键 |
+| **v2.2.0**（最新） | **停止闭环 + 统一诊断 + 界面重构**：随口记停止后自动验证、残留补发，按一次就干净；`diag.sh` 一条命令出全量诊断报告；能力探测提速按键响应；脚本超时保护；按键页折叠、场景页一个手势一张卡、新建场景改四步向导、动作选择器占满整行并按机型过滤 |
+| v2.1.0 | **组合键重做 + 原生截图回归**：组合键独立编辑页、最多 8 键、三段式条件、任意键码；「电源+音量减」原生截图完整保留；新增机型识别、应用集合、保存冲突检测、配置备份、息屏免密开相机/计算器；修复电源键双击判定与触摸屏误报按键 |
 | v2.0.0 | **场景引擎**：同一手势按场合（前台应用 / 时段 / 响铃 / 横竖屏 / 息屏…）做不同的事，每手势 3 个场景槽 + 优先级；组合键支持长短按；修复音量键对调失灵；新增管理器内自动更新 |
 | v1.7.1 | 手电筒改用官方服务开关，控制中心不再失灵；修复手电筒一键复位 |
 | v1.7.0 及更早 | 历史版本都在 [Releases](https://github.com/spoilsme/SideKey/releases) 页面 |
@@ -47,7 +50,7 @@
 
 ## 安装
 
-1. 把 `sidekey-v2.1.0.zip` 刷进 KernelSU（或 Magisk / APatch），**重启**。
+1. 把 `sidekey-v2.2.0.zip` 刷进 KernelSU（或 Magisk / APatch），**重启**。
    - 兼容 KernelSU / KSU Next、Magisk 稳定版 / Beta / Canary、Magisk Delta / Alpha、
      APatch、狐狸面具（Fox Magisk Module Manager）等所有主流 root 管理器。
    - v1.7.0 起包内补齐了标准 `META-INF/com/google/android/update-binary`（Magisk
@@ -130,7 +133,7 @@ WebUI「脚本」页可查看全部内置脚本（只读）和试运行；自己
 - 守护进程没起来：看 WebUI「日志」页 → daemon.out 和 sidekeyd.log
 - 手电筒点不亮（控制中心）：WebUI「设置」页点【修复手电筒】（= `TORCH_REPAIR=1 cos_torch.sh`），约 10 秒恢复，**不用重启手机**
 - 铃声切换不对：看 `ringer.log`，把日志发到 Issues
-- 多击拦截不生效：设置页「按键扫描」确认设备和 uinput 状态
+- 多击拦截不生效：跑 `su -c 'sh /data/adb/modules/sidekey/scripts/diag.sh'`，报告在 `Android/sidekey/diag.txt`，整份发到 Issues 即可
 - 刷入失败：确认 root 管理器版本，附上安装日志提到 Issues
 
 ## 目录说明（安装后）
